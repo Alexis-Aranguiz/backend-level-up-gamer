@@ -1,6 +1,8 @@
-package com.tienda.levelup.service;
+package levelup.backend.service;
 
-import com.tienda.levelup.entity.Producto;
+import levelup.backend.entity.Producto;
+
+
 
 import java.util.List;
 import java.util.Optional;

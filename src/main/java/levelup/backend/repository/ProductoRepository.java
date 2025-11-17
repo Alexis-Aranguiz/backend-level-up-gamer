@@ -1,6 +1,6 @@
-package com.tienda.levelup.repository;
+package levelup.backend.repository;
 
-import com.tienda.levelup.entity.Producto;
+import levelup.backend.entity.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,5 @@
-package com.tienda.levelup.config;
+package levelup.backend.config;
+
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;

@@ -1,7 +1,7 @@
-package com.tienda.levelup.service;
+package levelup.backend.service;
 
-import com.tienda.levelup.entity.Producto;
-import com.tienda.levelup.repository.ProductoRepository;
+import levelup.backend.entity.Producto;
+import levelup.backend.repository.ProductoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

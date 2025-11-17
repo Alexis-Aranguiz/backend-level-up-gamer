@@ -1,4 +1,5 @@
-package com.tienda.levelup.entity;
+package levelup.backend.entity;
+
 
 import jakarta.persistence.*;
 import lombok.Data;

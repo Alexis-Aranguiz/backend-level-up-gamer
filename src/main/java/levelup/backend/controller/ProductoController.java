@@ -1,7 +1,7 @@
-package com.tienda.levelup.controller;
+package levelup.backend.controller;
 
-import com.tienda.levelup.entity.Producto;
-import com.tienda.levelup.service.ProductoService;
+import levelup.backend.entity.Producto;
+import levelup.backend.service.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
