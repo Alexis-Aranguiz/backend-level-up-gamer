@@ -41,18 +41,10 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- Driver de BD: usa SOLO el que vayas a ocupar en application.properties -->
-        <!-- MySQL -->
+        <!-- Driver BD: PostgreSQL (solo UNA vez) -->
         <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- Oracle (si finalmente NO lo usas, puedes borrar este bloque) -->
-        <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc11</artifactId>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
 
@@ -104,20 +96,13 @@
 
     <build>
         <plugins>
-            <!-- Compilador Java 17 + Lombok como annotation processor -->
+            <!-- Compilador Java 17 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.14.1</version>
                 <configuration>
                     <release>${java.version}</release>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>1.18.34</version>
-                        </path>
-                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
 
