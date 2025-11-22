@@ -26,8 +26,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + email));
 
+        // AQUÍ LA CLAVE:
+        // En la tabla roles.nombre ya tienes "ROLE_ADMIN" o "ROLE_USER".
+        // No volvemos a agregar "ROLE_" de nuevo.
         List<GrantedAuthority> authorities = usuario.getRoles().stream()
-                .map(rol -> new SimpleGrantedAuthority("ROLE_" + rol.getNombre()))
+                .map(rol -> new SimpleGrantedAuthority(rol.getNombre()))
                 .collect(Collectors.toList());
 
         return new org.springframework.security.core.userdetails.User(
@@ -37,3 +40,4 @@ public class CustomUserDetailsService implements UserDetailsService {
         );
     }
 }
+    

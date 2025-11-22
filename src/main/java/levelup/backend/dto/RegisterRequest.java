@@ -1,10 +1,13 @@
 package levelup.backend.dto;
 
+import java.util.List;
+
 public class RegisterRequest {
 
     private String nombre;
     private String email;
     private String password;
+    private List<String> roles; // ← AHORA SÍ ACEPTA ROLES
 
     public RegisterRequest() {
     }
@@ -31,5 +34,13 @@ public class RegisterRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }

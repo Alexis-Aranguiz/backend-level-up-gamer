@@ -37,6 +37,7 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
+    // ========= REGISTRO NORMAL (ROLE_USER) =========
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
 
@@ -78,6 +79,50 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    // ========= REGISTRO ADMIN (ROLE_ADMIN) =========
+    // Solo para desarrollo: NO uses esto abierto en producción
+    @PostMapping("/register-admin")
+    public ResponseEntity<AuthResponse> registerAdmin(@RequestBody RegisterRequest request) {
+
+        if (usuarioRepository.existsByEmail(request.getEmail())) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Rol rolAdmin = rolRepository.findByNombre("ROLE_ADMIN")
+                .orElseGet(() -> {
+                    Rol nuevoRol = new Rol();
+                    nuevoRol.setNombre("ROLE_ADMIN");
+                    return rolRepository.save(nuevoRol);
+                });
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre(request.getNombre());
+        usuario.setEmail(request.getEmail());
+        usuario.setPassword(passwordEncoder.encode(request.getPassword()));
+        usuario.getRoles().add(rolAdmin);
+        usuario.setPuntos(0);
+        usuario.setDescuentoPct(0);
+
+        usuarioRepository.save(usuario);
+
+        String token = jwtUtil.generateToken(
+                usuario.getEmail(),
+                usuario.getRoleNames()
+        );
+
+        AuthResponse response = new AuthResponse(
+                token,
+                usuario.getNombre(),
+                usuario.getEmail(),
+                usuario.getRoleNames(),
+                usuario.getPuntos(),
+                usuario.getDescuentoPct()
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    // ========= LOGIN =========
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
 

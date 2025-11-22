@@ -32,11 +32,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // ENDPOINTS PÚBLICOS
+                        // públicos
                         .requestMatchers(
                                 "/api/v1/auth/**",
                                 "/swagger-ui.html",
@@ -44,10 +45,14 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/v3/api-docs.yaml"
                         ).permitAll()
-                        // Productos: GET público, modificaciones solo ADMIN
+
+                        // GET productos libre
                         .requestMatchers(HttpMethod.GET, "/api/v1/productos/**").permitAll()
-                        .requestMatchers("/api/v1/productos/**").hasRole("ADMIN")
-                        // Cualquier otra cosa requiere autenticación
+
+                        // Crear / editar / borrar productos → solo ADMIN
+                        .requestMatchers("/api/v1/productos/**").hasAuthority("ROLE_ADMIN")
+
+                        // Resto: autenticado
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
@@ -70,9 +75,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config
-    ) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 }
