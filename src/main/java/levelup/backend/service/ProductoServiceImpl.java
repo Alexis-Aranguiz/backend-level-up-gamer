@@ -3,6 +3,7 @@ package levelup.backend.service;
 import levelup.backend.entity.Producto;
 import levelup.backend.repository.ProductoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,11 +28,20 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
+    @Transactional
     public Producto guardar(Producto producto) {
+        // Valores por defecto si no vienen en el request
+        if (producto.getPuntosBase() == null) {
+            producto.setPuntosBase(0);
+        }
+        if (producto.getDescuentoPct() == null) {
+            producto.setDescuentoPct(0);
+        }
         return productoRepository.save(producto);
     }
 
     @Override
+    @Transactional
     public Producto actualizar(Long id, Producto producto) {
         return productoRepository.findById(id)
                 .map(existente -> {
@@ -40,6 +50,8 @@ public class ProductoServiceImpl implements ProductoService {
                     existente.setPrecio(producto.getPrecio());
                     existente.setStock(producto.getStock());
                     existente.setCategoria(producto.getCategoria());
+                    existente.setPuntosBase(producto.getPuntosBase());
+                    existente.setDescuentoPct(producto.getDescuentoPct());
                     return productoRepository.save(existente);
                 })
                 .orElseThrow(() ->
@@ -47,6 +59,7 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
+    @Transactional
     public void eliminar(Long id) {
         if (!productoRepository.existsById(id)) {
             throw new RuntimeException("Producto con id " + id + " no existe");
